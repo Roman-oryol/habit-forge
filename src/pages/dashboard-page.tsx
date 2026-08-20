@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 const DashboardPage = () => {
   return (
     <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <header className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Today</h1>
           <p className="text-muted-foreground text-sm">
