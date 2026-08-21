@@ -1,22 +1,15 @@
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import PageHeader from "@/components/page-header";
+import NewHabitButton from "@/components/new-habit-button";
 
 const DashboardPage = () => {
   return (
     <div className="flex flex-col gap-6">
-      <header className="flex items-end justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Today</h1>
-          <p className="text-muted-foreground text-sm">
-            <span>Saturday</span>,<span> August 15</span>
-          </p>
-        </div>
-        <Button>
-          <Plus />
-          New habit
-        </Button>
-      </header>
+      <PageHeader
+        title="Today"
+        description={<time dateTime="">Saturday, August 15</time>}
+        actions={<NewHabitButton />}
+      />
       <section className="grid gap-3 md:grid-cols-3">
         <Card className="gap-2">
           <CardHeader className="text-muted-foreground text-sm">
