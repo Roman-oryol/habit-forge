@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
-import clsx from "clsx";
 import { LayoutDashboard, Repeat } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -9,7 +9,7 @@ const navigationItems = [
 
 const Navigation = () => {
   const navLinkStyles = ({ isActive }: { isActive: boolean }) =>
-    clsx(
+    cn(
       "rounded-lg px-3 py-2 text-sm transition-all flex max-md:flex-col items-center gap-1",
       isActive
         ? "bg-primary text-primary-foreground"
