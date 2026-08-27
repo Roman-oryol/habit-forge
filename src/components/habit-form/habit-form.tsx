@@ -28,6 +28,7 @@ const HabitForm = () => {
     },
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const frequencyType = watch("frequencyType");
   const onSubmit = handleSubmit((data) => console.log(data));
 
