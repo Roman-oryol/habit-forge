@@ -9,8 +9,24 @@ import { habitShema, type habitFormValues } from "@/validations/habit";
 import { FrequencyTypeField } from "./frequency-type-field";
 import { WeekdaysField } from "./weekdays-field";
 import { TimesPerWeekField } from "./times-per-week-field";
+import type { CreateHabitInput, Frequency } from "@/types/habit";
 
-const HabitForm = () => {
+type HabitFormProps = {
+  onFormSubmit: (input: CreateHabitInput) => void;
+};
+
+const toFrequency = (values: habitFormValues): Frequency => {
+  switch (values.frequencyType) {
+    case "daily":
+      return { type: "daily" };
+    case "weekdays":
+      return { type: "weekdays", days: values.days ?? [] };
+    case "timesPerWeek":
+      return { type: "timesPerWeek", count: values.timesPerWeek ?? 1 };
+  }
+};
+
+const HabitForm = ({ onFormSubmit }: HabitFormProps) => {
   const {
     register,
     control,
@@ -30,7 +46,14 @@ const HabitForm = () => {
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const frequencyType = watch("frequencyType");
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((values) => {
+    const input: CreateHabitInput = {
+      name: values.name,
+      category: values.category,
+      frequency: toFrequency(values),
+    };
+    onFormSubmit(input);
+  });
 
   return (
     <form className="grid gap-4" onSubmit={onSubmit}>

@@ -1,6 +1,20 @@
+import { useCreateHabit } from "@/hooks/use-create-habit";
 import HabitForm from "../components/habit-form/habit-form";
+import { useNavigate } from "react-router";
+import type { CreateHabitInput } from "@/types/habit";
 
 const CreateHabitPage = () => {
+  const mutation = useCreateHabit();
+  const navigate = useNavigate();
+
+  const handleFormSubmit = (input: CreateHabitInput) => {
+    mutation.mutate(input, {
+      onSuccess: () => {
+        navigate("/habits");
+      },
+    });
+  };
+
   return (
     <div className="grid gap-6">
       <header>
@@ -9,7 +23,7 @@ const CreateHabitPage = () => {
           Build a new routine and track your progress
         </p>
       </header>
-      <HabitForm />
+      <HabitForm onFormSubmit={handleFormSubmit} />
     </div>
   );
 };
