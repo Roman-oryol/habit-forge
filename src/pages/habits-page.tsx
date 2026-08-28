@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useHabits } from "@/hooks/use-habits";
 import PageHeader from "@/components/page-header";
 import NewHabitButton from "@/components/new-habit-button";
+import HabitCard from "@/components/habits/habit-card";
 
 const HabitsPage = () => {
   const { data: habits, isPending, isError, error } = useHabits();
@@ -29,14 +29,7 @@ const HabitsPage = () => {
       {habits && habits.length > 0 && (
         <div className="grid gap-3 md:grid-cols-2">
           {habits.map((habit) => (
-            <Card key={habit.id}>
-              <CardHeader>
-                <CardTitle>{habit.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground text-sm">
-                {habit.category}
-              </CardContent>
-            </Card>
+            <HabitCard key={habit.id} habit={habit} />
           ))}
         </div>
       )}
