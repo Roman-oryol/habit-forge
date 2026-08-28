@@ -70,7 +70,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
       <CardFooter className="bg-muted-background">
         <Button
           className={cn(
-            "w-full justify-start py-6 text-base",
+            "text-muted-foreground hover:text-muted-foreground w-full justify-start py-6 text-base",
             isDoneToday &&
               "bg-primary/15 text-primary hover:bg-primary/20 border-primary/50",
           )}
