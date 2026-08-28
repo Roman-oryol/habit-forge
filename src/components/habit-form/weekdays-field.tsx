@@ -4,16 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { habitFormValues } from "@/validations/habit";
-
-const WEEKDAYS = [
-  { label: "Mon", value: 0 },
-  { label: "Tue", value: 1 },
-  { label: "Wed", value: 2 },
-  { label: "Thu", value: 3 },
-  { label: "Fri", value: 4 },
-  { label: "Sat", value: 5 },
-  { label: "Sun", value: 6 },
-];
+import { weekdays } from "@/lib/frequency";
 
 interface WeekdaysFieldProps {
   control: Control<habitFormValues>;
@@ -47,7 +38,7 @@ export function WeekdaysField({ control, errors }: WeekdaysFieldProps) {
 
             <p className="text-muted-foreground mb-2 text-sm">Select day</p>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-2">
-              {WEEKDAYS.map(({ label, value }) => {
+              {weekdays.map(({ label, value }) => {
                 const selected = selectedDays.includes(value);
                 return (
                   <Button
