@@ -1,5 +1,4 @@
 import { Controller, type Control } from "react-hook-form";
-import { Repeat2, CalendarDays, Hash } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -8,12 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { habitFormValues } from "@/validations/habit";
-
-const frequencyTypes = [
-  { label: "Daily", value: "daily", icon: Repeat2 },
-  { label: "Weekdays", value: "weekdays", icon: CalendarDays },
-  { label: "Times per week", value: "timesPerWeek", icon: Hash },
-];
+import { frequencyTypes } from "@/lib/frequency";
 
 interface FrequencyTypeFieldProps {
   control: Control<habitFormValues>;
