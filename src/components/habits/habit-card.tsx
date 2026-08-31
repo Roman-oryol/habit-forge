@@ -17,21 +17,24 @@ import {
   getStreakUnitLabel,
 } from "@/lib/frequency";
 import { cn } from "@/lib/utils";
-// import { useCreateHabit } from "@/hooks/use-create-habit";
+import { calculateStreak } from "@/lib/streaks";
+import { useToggleHabit } from "@/hooks/use-toggle-habit";
+import { toDateKey } from "@/lib/date";
 
 interface HabitCardProps {
   habit: Habit;
 }
 
 const HabitCard = ({ habit }: HabitCardProps) => {
-  // const mutation = useCreateHabit();
+  const mutation = useToggleHabit();
   const selectedType = frequencyTypes.find(
     (t) => t.value === habit.frequency.type,
   );
   const isDailyType = selectedType?.value === "daily";
   const subtitle = getFrequencySubtitle(habit.frequency);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = toDateKey(new Date());
   const isDoneToday = habit.completions.includes(today);
+  const streak = calculateStreak(habit);
 
   return (
     <Card>
@@ -62,7 +65,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           </div>
           <div className="grid grid-cols-[auto_1fr] items-center gap-x-2">
             <Flame className="text-primary row-span-2" />
-            <p className="text-foreground text-lg font-semibold">0</p>
+            <p className="text-foreground text-lg font-semibold">{streak}</p>
             <p>{getStreakUnitLabel(habit.frequency)}</p>
           </div>
         </div>
@@ -77,7 +80,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           type="button"
           variant={isDoneToday ? "default" : "outline"}
           aria-pressed={isDoneToday}
-          // onClick={() => mutation.mutate({ id: habit.id, date: today })}
+          onClick={() => mutation.mutate({ id: habit.id, date: today })}
         >
           {isDoneToday ? (
             <CircleCheck className="size-7" />
