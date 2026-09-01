@@ -1,4 +1,4 @@
-import { Circle, CircleCheck, EllipsisVertical, Flame } from "lucide-react";
+import { Circle, CircleCheck, Flame } from "lucide-react";
 import type { Habit } from "@/types/habit";
 import {
   Card,
@@ -21,6 +21,7 @@ import { calculateStreak } from "@/lib/streaks";
 import { useToggleHabit } from "@/hooks/use-toggle-habit";
 import { toDateKey } from "@/lib/date";
 import { Spinner } from "../ui/spinner";
+import HabitActions from "./habit-actions";
 
 interface HabitCardProps {
   habit: Habit;
@@ -42,10 +43,11 @@ const HabitCard = ({ habit }: HabitCardProps) => {
       <CardHeader className="border-border border-b">
         <CardTitle className="text-base font-semibold">{habit.name}</CardTitle>
         <CardDescription>{habit.category}</CardDescription>
-        <CardAction className="-mt-1.25">
-          <Button variant="ghost" size="icon">
-            <EllipsisVertical />
-          </Button>
+        <CardAction className="-mt-1">
+          <HabitActions />
+          {/* <Button variant="ghost" size="icon">
+            <MoreVerticalIcon />
+          </Button> */}
         </CardAction>
       </CardHeader>
       <CardContent className="text-muted-foreground text-sm">
@@ -76,7 +78,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           className={cn(
             "text-muted-foreground hover:text-muted-foreground w-full justify-start py-6 text-base",
             isDoneToday &&
-              "bg-primary/15 text-primary hover:bg-primary/20 border-primary/50",
+              "bg-primary/15 text-primary hover:bg-primary/20 hover:text-primary border-primary/50",
           )}
           type="button"
           variant={isDoneToday ? "default" : "outline"}
