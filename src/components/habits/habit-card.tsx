@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { calculateStreak } from "@/lib/streaks";
 import { useToggleHabit } from "@/hooks/use-toggle-habit";
 import { toDateKey } from "@/lib/date";
+import { Spinner } from "../ui/spinner";
 
 interface HabitCardProps {
   habit: Habit;
@@ -80,9 +81,12 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           type="button"
           variant={isDoneToday ? "default" : "outline"}
           aria-pressed={isDoneToday}
+          disabled={mutation.isPending}
           onClick={() => mutation.mutate({ id: habit.id, date: today })}
         >
-          {isDoneToday ? (
+          {mutation.isPending ? (
+            <Spinner className="size-7" />
+          ) : isDoneToday ? (
             <CircleCheck className="size-7" />
           ) : (
             <Circle className="size-7" />
