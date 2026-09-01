@@ -8,7 +8,7 @@ export function useCreateHabit() {
   return useMutation({
     mutationFn: createHabit,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: habitsKeys.all });
+      return queryClient.invalidateQueries({ queryKey: habitsKeys.all });
     },
   });
 }

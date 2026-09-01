@@ -14,7 +14,7 @@ export function useToggleHabit() {
     mutationFn: ({ id, date }: ToggleCompletionInput) =>
       toggleCompletion(id, date),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: habitsKeys.all });
+      return queryClient.invalidateQueries({ queryKey: habitsKeys.all });
     },
   });
 }
