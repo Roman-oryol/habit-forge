@@ -44,10 +44,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
         <CardTitle className="text-base font-semibold">{habit.name}</CardTitle>
         <CardDescription>{habit.category}</CardDescription>
         <CardAction className="-mt-1">
-          <HabitActions />
-          {/* <Button variant="ghost" size="icon">
-            <MoreVerticalIcon />
-          </Button> */}
+          <HabitActions habitId={habit.id} habitName={habit.name} />
         </CardAction>
       </CardHeader>
       <CardContent className="text-muted-foreground text-sm">

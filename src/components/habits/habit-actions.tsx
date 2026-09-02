@@ -1,9 +1,4 @@
-import {
-  ArchiveIcon,
-  Edit2Icon,
-  MoreVerticalIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { Edit2Icon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -13,8 +8,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDeleteHabit } from "@/hooks/use-delete-habit";
 
-const HabitActions = () => {
+interface HabitActionsProps {
+  habitId: string;
+  habitName: string;
+}
+
+const HabitActions = ({ habitId, habitName }: HabitActionsProps) => {
+  const deleteMutation = useDeleteHabit();
+
+  const handleDelete = () => {
+    const confirmed = window.confirm(
+      `Delete "${habitName}"? This can't be undone.`,
+    );
+    if (confirmed) {
+      deleteMutation.mutate(habitId);
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -23,22 +35,17 @@ const HabitActions = () => {
             <MoreVerticalIcon />
           </Button>
         }
-      >
-        Open
-      </DropdownMenuTrigger>
+      />
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem disabled>
             <Edit2Icon />
             Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ArchiveIcon /> Archive
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem variant="destructive" onClick={handleDelete}>
             <Trash2Icon /> Delete
           </DropdownMenuItem>
         </DropdownMenuGroup>
