@@ -40,7 +40,7 @@ const HabitForm = ({ onFormSubmit }: HabitFormProps) => {
       category: "",
       frequencyType: "daily",
       days: [],
-      timesPerWeek: undefined,
+      timesPerWeek: 1,
     },
   });
 
