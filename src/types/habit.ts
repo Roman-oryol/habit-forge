@@ -9,8 +9,8 @@ export interface Habit {
   category: string;
   frequency: Frequency;
   archived: boolean;
-  createdAt: string; // ISO
-  completions: string[]; // ISO-даты выполнения
+  createdAt: string;
+  completions: string[];
 }
 
 export type CreateHabitInput = Omit<
