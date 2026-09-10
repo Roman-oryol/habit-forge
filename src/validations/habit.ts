@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const habitShema = z
+export const habitFormSchema = z
   .object({
     name: z.string().trim().min(2, "Minimum 2 characters").max(60),
     category: z.string().trim().min(1, "Category is required"),
@@ -26,4 +26,4 @@ export const habitShema = z
     }
   });
 
-export type habitFormValues = z.infer<typeof habitShema>;
+export type HabitFormValues = z.infer<typeof habitFormSchema>;

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { habitShema, type habitFormValues } from "@/validations/habit";
+import { habitFormSchema, type HabitFormValues } from "@/validations/habit";
 import { FrequencyTypeField } from "./frequency-type-field";
 import { WeekdaysField } from "./weekdays-field";
 import { TimesPerWeekField } from "./times-per-week-field";
@@ -15,7 +15,7 @@ type HabitFormProps = {
   onFormSubmit: (input: CreateHabitInput) => void;
 };
 
-const toFrequency = (values: habitFormValues): Frequency => {
+const toFrequency = (values: HabitFormValues): Frequency => {
   switch (values.frequencyType) {
     case "daily":
       return { type: "daily" };
@@ -33,8 +33,8 @@ const HabitForm = ({ onFormSubmit }: HabitFormProps) => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<habitFormValues>({
-    resolver: zodResolver(habitShema),
+  } = useForm<HabitFormValues>({
+    resolver: zodResolver(habitFormSchema),
     defaultValues: {
       name: "",
       category: "",

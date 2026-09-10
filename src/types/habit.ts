@@ -1,17 +1,12 @@
+import { z } from "zod";
+import { habitSchema } from "@/schemas/habit";
+
 export type Frequency =
   | { type: "daily" }
   | { type: "weekdays"; days: number[] }
   | { type: "timesPerWeek"; count: number };
 
-export interface Habit {
-  id: string;
-  name: string;
-  category: string;
-  frequency: Frequency;
-  archived: boolean;
-  createdAt: string;
-  completions: string[];
-}
+export type Habit = z.infer<typeof habitSchema>;
 
 export type CreateHabitInput = Omit<
   Habit,
