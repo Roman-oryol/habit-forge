@@ -1,3 +1,4 @@
+import { habitSchema } from "@/schemas/habit";
 import type { Habit, CreateHabitInput } from "@/types/habit";
 
 const STORAGE_KEY = "habitforge:habits";
@@ -9,7 +10,28 @@ function delay<T>(value: T): Promise<T> {
 
 function readAll(): Habit[] {
   const raw = localStorage.getItem(STORAGE_KEY);
-  return raw ? JSON.parse(raw) : [];
+  if (!raw) return [];
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    console.warn("Corrupted habits data in localStorage — resetting.");
+    return [];
+  }
+
+  if (!Array.isArray(parsed)) {
+    console.warn("Habits data is not an array — resetting.");
+    return [];
+  }
+
+  return parsed.filter((item): item is Habit => {
+    const result = habitSchema.safeParse(item);
+    if (!result.success) {
+      console.warn("Skipping invalid habit record:", item, result.error);
+    }
+    return result.success;
+  });
 }
 
 function writeAll(habits: Habit[]) {
