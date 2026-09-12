@@ -2,10 +2,10 @@ import { Controller, type Control } from "react-hook-form";
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { habitFormValues } from "@/validations/habit";
+import type { HabitFormValues } from "@/validations/habit";
 
 interface TimesPerWeekFieldProps {
-  control: Control<habitFormValues>;
+  control: Control<HabitFormValues>;
 }
 
 export function TimesPerWeekField({ control }: TimesPerWeekFieldProps) {

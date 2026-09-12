@@ -3,12 +3,12 @@ import { CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import type { habitFormValues } from "@/validations/habit";
+import type { HabitFormValues } from "@/validations/habit";
 import { weekdays } from "@/lib/frequency";
 
 interface WeekdaysFieldProps {
-  control: Control<habitFormValues>;
-  errors: FieldErrors<habitFormValues>;
+  control: Control<HabitFormValues>;
+  errors: FieldErrors<HabitFormValues>;
 }
 
 export function WeekdaysField({ control, errors }: WeekdaysFieldProps) {
@@ -51,7 +51,7 @@ export function WeekdaysField({ control, errors }: WeekdaysFieldProps) {
                     onClick={() =>
                       field.onChange(
                         selected
-                          ? selectedDays.filter((d) => d !== value)
+                          ? selectedDays.filter((d: number) => d !== value)
                           : [...selectedDays, value],
                       )
                     }

@@ -6,11 +6,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { habitFormValues } from "@/validations/habit";
+import type { HabitFormValues } from "@/validations/habit";
 import { frequencyTypes } from "@/lib/frequency";
 
 interface FrequencyTypeFieldProps {
-  control: Control<habitFormValues>;
+  control: Control<HabitFormValues>;
 }
 
 export function FrequencyTypeField({ control }: FrequencyTypeFieldProps) {
