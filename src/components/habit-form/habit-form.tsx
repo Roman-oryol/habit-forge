@@ -9,10 +9,12 @@ import { habitFormSchema, type HabitFormValues } from "@/validations/habit";
 import { FrequencyTypeField } from "./frequency-type-field";
 import { WeekdaysField } from "./weekdays-field";
 import { TimesPerWeekField } from "./times-per-week-field";
-import type { CreateHabitInput, Frequency } from "@/types/habit";
+import type { CreateHabitInput, Frequency, Habit } from "@/types/habit";
 
 type HabitFormProps = {
   onFormSubmit: (input: CreateHabitInput) => void;
+  defaultValues?: Habit;
+  submitLabel?: string;
 };
 
 const toFrequency = (values: HabitFormValues): Frequency => {
@@ -26,7 +28,24 @@ const toFrequency = (values: HabitFormValues): Frequency => {
   }
 };
 
-const HabitForm = ({ onFormSubmit }: HabitFormProps) => {
+function fromFrequency(
+  frequency: Frequency,
+): Pick<HabitFormValues, "frequencyType" | "days" | "timesPerWeek"> {
+  switch (frequency.type) {
+    case "daily":
+      return { frequencyType: frequency.type };
+    case "weekdays":
+      return { frequencyType: frequency.type, days: frequency.days };
+    case "timesPerWeek":
+      return { frequencyType: frequency.type, timesPerWeek: frequency.count };
+  }
+}
+
+const HabitForm = ({
+  onFormSubmit,
+  defaultValues,
+  submitLabel = "Create habit",
+}: HabitFormProps) => {
   const {
     register,
     control,
@@ -36,11 +55,11 @@ const HabitForm = ({ onFormSubmit }: HabitFormProps) => {
   } = useForm<HabitFormValues>({
     resolver: zodResolver(habitFormSchema),
     defaultValues: {
-      name: "",
-      category: "",
-      frequencyType: "daily",
-      days: [],
-      timesPerWeek: 1,
+      name: defaultValues?.name ?? "",
+      category: defaultValues?.category ?? "",
+      ...(defaultValues
+        ? fromFrequency(defaultValues.frequency)
+        : { frequencyType: "daily", days: [], timesPerWeek: 1 }),
     },
   });
 
@@ -111,7 +130,7 @@ const HabitForm = ({ onFormSubmit }: HabitFormProps) => {
         </CardContent>
       </Card>
 
-      <Button type="submit">Create habit</Button>
+      <Button type="submit">{submitLabel}</Button>
     </form>
   );
 };
