@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useDeleteHabit } from "@/hooks/use-delete-habit";
+import { useNavigate } from "react-router";
 
 interface HabitActionsProps {
   habitId: string;
@@ -17,6 +18,7 @@ interface HabitActionsProps {
 
 const HabitActions = ({ habitId, habitName }: HabitActionsProps) => {
   const deleteMutation = useDeleteHabit();
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     const confirmed = window.confirm(
@@ -25,6 +27,10 @@ const HabitActions = ({ habitId, habitName }: HabitActionsProps) => {
     if (confirmed) {
       deleteMutation.mutate(habitId);
     }
+  };
+
+  const handleEdit = () => {
+    navigate(`/habits/${habitId}/edit`);
   };
 
   return (
@@ -38,7 +44,7 @@ const HabitActions = ({ habitId, habitName }: HabitActionsProps) => {
       />
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem disabled>
+          <DropdownMenuItem onClick={handleEdit}>
             <Edit2Icon />
             Edit
           </DropdownMenuItem>
