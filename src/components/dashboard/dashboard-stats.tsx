@@ -17,7 +17,7 @@ const DashboardStats = () => {
   );
 
   return (
-    <section className="grid gap-3 md:grid-cols-3">
+    <section className="grid gap-3 lg:grid-cols-3">
       <Card className="gap-2">
         <CardHeader className="text-muted-foreground text-sm">
           Completed today

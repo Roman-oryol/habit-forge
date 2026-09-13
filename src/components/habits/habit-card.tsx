@@ -48,7 +48,7 @@ const HabitCard = ({ habit }: HabitCardProps) => {
         </CardAction>
       </CardHeader>
       <CardContent className="text-muted-foreground text-sm">
-        <div className="itemc-center flex justify-between">
+        <div className="item-center flex justify-between gap-2">
           <div className="grid grid-cols-[auto_1fr] items-center gap-x-4">
             {selectedType && (
               <selectedType.icon
@@ -66,11 +66,13 @@ const HabitCard = ({ habit }: HabitCardProps) => {
           <div className="grid grid-cols-[auto_1fr] items-center gap-x-2">
             <Flame className="text-primary row-span-2" />
             <p className="text-foreground text-lg font-semibold">{streak}</p>
-            <p>{getStreakUnitLabel(habit.frequency)}</p>
+            <p className="whitespace-nowrap">
+              {getStreakUnitLabel(habit.frequency)}
+            </p>
           </div>
         </div>
       </CardContent>
-      <CardFooter className="bg-muted-background">
+      <CardFooter className="bg-muted-background mt-auto">
         <Button
           className={cn(
             "text-muted-foreground hover:text-muted-foreground w-full justify-start py-6 text-base",

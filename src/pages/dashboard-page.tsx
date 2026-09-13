@@ -11,7 +11,7 @@ const DashboardPage = () => {
   }).format(new Date());
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex h-full flex-col gap-6">
       <PageHeader
         title="Today"
         description={
