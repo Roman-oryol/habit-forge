@@ -10,7 +10,7 @@ const TodayHabits = () => {
     habits?.filter((h) => isHabitDueToday(h, new Date())) ?? [];
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col gap-3">
+    <section className="flex flex-col gap-3">
       <h2 className="text-base font-semibold">Today's habits</h2>
 
       {isPending && <Spinner className="text-muted size-8 self-center" />}
@@ -28,12 +28,10 @@ const TodayHabits = () => {
       )}
 
       {todayHabits.length > 0 && (
-        <div className="min-h-0 flex-1 overflow-y-auto">
-          <div className="grid gap-3 pb-4 lg:grid-cols-2 xl:grid-cols-3">
-            {todayHabits.map((habit) => (
-              <HabitCard key={habit.id} habit={habit} />
-            ))}
-          </div>
+        <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
+          {todayHabits.map((habit) => (
+            <HabitCard key={habit.id} habit={habit} />
+          ))}
         </div>
       )}
     </section>

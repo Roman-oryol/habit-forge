@@ -21,8 +21,10 @@ const DashboardPage = () => {
         }
         actions={<NewHabitButton />}
       />
-      <DashboardStats />
-      <TodayHabits />
+      <div className="h-full min-h-0 overflow-y-auto">
+        <DashboardStats />
+        <TodayHabits />
+      </div>
     </div>
   );
 };
