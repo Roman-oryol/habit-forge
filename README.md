@@ -1,75 +1,50 @@
-# React + TypeScript + Vite
+# HabitForge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Трекер привычек - самостоятельный pet-проект с продуманной архитектурой, честной обработкой пограничных случаев и тестами на бизнес-логику.
 
-Currently, two official plugins are available:
+**🔗 Живая версия:** [habit-forge-alpha.vercel.app](https://habit-forge-alpha.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Что умеет
 
-## React Compiler
+- Создание, редактирование, удаление привычек
+- Три вида периодичности: ежедневно, по конкретным дням недели, N раз в неделю (в любые дни)
+- Отметка выполнения на сегодня
+- Подсчёт стриков — с отдельным алгоритмом для каждого вида периодичности
+- Дашборд с живой статистикой: выполнено сегодня, текущий стрик, консистентность за неделю
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Стек
 
-## Expanding the ESLint configuration
+- **React 19 + TypeScript + Vite**
+- **Tailwind v4 + shadcn/ui**
+- **React Router** — клиентский роутинг
+- **TanStack Query** — кеширование, состояния загрузки/ошибок, инвалидация кеша после мутаций
+- **React Hook Form + Zod** — валидация форм
+- **Vitest** — юнит-тесты на всю чистую бизнес-логику (24 теста, 3 файла)
+- Асинхронный mock-API поверх `localStorage` — спроектирован так, чтобы безболезненно замениться на реальный backend
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Технические решения, о которых стоит рассказать
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Mock API — честно асинхронный.** `localStorage` синхронен по своей природе, но все функции API (`getHabits`, `createHabit` и т.д.) обёрнуты в `Promise` с искусственной задержкой. Это позволило использовать TanStack Query по-настоящему — с реальными состояниями `isPending`/`isError`, а не притворяться, что данные появляются мгновенно. Когда дойдёт очередь до реального backend, поменяется только реализация внутри `api/habits.ts` — ни один хук или компонент трогать не придётся.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Разные Zod-схемы для формы и для домена.** `validations/habit.ts` описывает плоскую структуру, удобную для полей формы (`frequencyType` + опциональные `days`/`timesPerWeek`). `schemas/habit.ts` описывает вложенную доменную структуру (`frequency: { type, ... }` — дискриминированный union). Между ними — явные функции-трансформеры (`toFrequency`/`fromFrequency`), а не попытка притянуть одну модель под обе задачи.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Три алгоритма стриков вместо одного универсального.** Дневная, недельная (по конкретным дням) и по количеству раз в неделю периодичность требуют принципиально разной логики подсчёта — попытка впихнуть всё в одну функцию с кучей `if` дала бы нечитаемый код. Каждый алгоритм — отдельная чистая функция, объединённая диспетчером через `switch` по дискриминированному union, с исчерпывающей проверкой на уровне типов.
 
+**Валидация данных на входе, не только на выходе.** Данные из `localStorage` не приводятся к типу вслепую (`as Habit[]`) — они прогоняются через ту же Zod-схему, что описывает домен, и невалидные записи по отдельности отфильтровываются с предупреждением в консоль, а не ломают всё приложение или молча стирают весь прогресс пользователя.
+
+**Тесты покрывают только то, за что отвечает каждый уровень.** Функция `isHabitDueToday` протестирована один раз, отдельно. Функции, которые её используют (`getCompletedTodayStats`, `getOverallStreak`), тестируют только свою собственную логику агрегации, не дублируя проверку нижнего уровня — так падение теста сразу указывает, на каком слое реальная проблема.
+
+## Локальный запуск
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run test     # прогон тестов (watch-режим)
+npm run build    # продакшн-сборка
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Дальше в планах
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+- Категории и фильтрация привычек (активные/архивные)
+- Реальный backend: Node/Express + PostgreSQL + Prisma
+- Авторизация (JWT) — после появления backend
