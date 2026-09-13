@@ -2,6 +2,7 @@ import { useHabits } from "@/hooks/use-habits";
 import PageHeader from "@/components/page-header";
 import NewHabitButton from "@/components/new-habit-button";
 import HabitCard from "@/components/habits/habit-card";
+import { Spinner } from "@/components/ui/spinner";
 
 const HabitsPage = () => {
   const { data: habits, isPending, isError, error } = useHabits();
@@ -10,9 +11,7 @@ const HabitsPage = () => {
     <div className="flex h-full min-h-0 flex-col gap-6">
       <PageHeader title="Habits" actions={<NewHabitButton />} />
 
-      {isPending && (
-        <p className="text-muted-foreground text-sm">Loading habits…</p>
-      )}
+      {isPending && <Spinner className="text-muted size-8 self-center" />}
 
       {isError && (
         <p className="text-destructive text-sm">
