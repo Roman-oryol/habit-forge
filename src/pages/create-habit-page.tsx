@@ -23,7 +23,10 @@ const CreateHabitPage = () => {
           Build a new routine and track your progress
         </p>
       </header>
-      <HabitForm onFormSubmit={handleFormSubmit} />
+      <HabitForm
+        onFormSubmit={handleFormSubmit}
+        onCancel={() => navigate("/habits")}
+      />
     </div>
   );
 };

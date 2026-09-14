@@ -13,6 +13,7 @@ import type { CreateHabitInput, Frequency, Habit } from "@/types/habit";
 
 type HabitFormProps = {
   onFormSubmit: (input: CreateHabitInput) => void;
+  onCancel: () => void;
   defaultValues?: Habit;
   submitLabel?: string;
 };
@@ -43,6 +44,7 @@ function fromFrequency(
 
 const HabitForm = ({
   onFormSubmit,
+  onCancel,
   defaultValues,
   submitLabel = "Create habit",
 }: HabitFormProps) => {
@@ -75,7 +77,10 @@ const HabitForm = ({
   });
 
   return (
-    <form className="grid gap-4" onSubmit={onSubmit}>
+    <form
+      className="grid gap-4 lg:grid-cols-2 lg:items-start"
+      onSubmit={onSubmit}
+    >
       <Card>
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
@@ -130,7 +135,19 @@ const HabitForm = ({
         </CardContent>
       </Card>
 
-      <Button type="submit">{submitLabel}</Button>
+      <div className="flex gap-2 lg:col-span-2">
+        <Button
+          type="button"
+          variant="outline"
+          className="flex-1"
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+        <Button type="submit" className="flex-1">
+          {submitLabel}
+        </Button>
+      </div>
     </form>
   );
 };
