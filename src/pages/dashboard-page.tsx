@@ -21,7 +21,7 @@ const DashboardPage = () => {
         }
         actions={<NewHabitButton />}
       />
-      <div className="grid h-full min-h-0 gap-6 overflow-y-auto">
+      <div className="grid h-full min-h-0 grid-rows-[auto_1fr] gap-6">
         <DashboardStats />
         <TodayHabits />
       </div>

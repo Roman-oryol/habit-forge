@@ -1,7 +1,7 @@
 import { useHabits } from "@/hooks/use-habits";
 import { isHabitDueToday } from "@/lib/habit-schedule";
-import HabitCard from "../habits/habit-card";
 import { Spinner } from "../ui/spinner";
+import HabitCardCompact from "../habits/habit-card-compact";
 
 const TodayHabits = () => {
   const { data: habits, isPending, isError, error } = useHabits();
@@ -30,7 +30,7 @@ const TodayHabits = () => {
       {todayHabits.length > 0 && (
         <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
           {todayHabits.map((habit) => (
-            <HabitCard key={habit.id} habit={habit} />
+            <HabitCardCompact key={habit.id} habit={habit} />
           ))}
         </div>
       )}
