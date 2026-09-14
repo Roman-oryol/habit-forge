@@ -35,7 +35,7 @@ const HabitCardCompact = ({ habit }: HabitCardCompactProps) => {
         </CardAction>
       </CardHeader>
 
-      <div className="flex items-center gap-3 px-3 pb-3">
+      <div className="mt-auto flex items-center justify-between gap-3 px-3 pb-3">
         <Button
           size="sm"
           type="button"
@@ -43,7 +43,7 @@ const HabitCardCompact = ({ habit }: HabitCardCompactProps) => {
           aria-pressed={isDoneToday}
           disabled={mutation.isPending}
           className={cn(
-            "flex-1 justify-start",
+            "justify-start",
             isDoneToday &&
               "bg-primary/15 text-primary hover:bg-primary/20 border-primary/50",
           )}
@@ -60,8 +60,10 @@ const HabitCardCompact = ({ habit }: HabitCardCompactProps) => {
         </Button>
 
         <div className="text-muted-foreground flex shrink-0 items-center gap-1 text-xs">
-          <Flame className="text-primary size-4" />
-          <span className="text-foreground font-semibold">{streak}</span>
+          <Flame className="text-primary size-6" />
+          <span className="text-foreground text-lg font-semibold">
+            {streak}
+          </span>
         </div>
       </div>
     </Card>

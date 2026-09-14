@@ -11,7 +11,7 @@ const DashboardPage = () => {
   }).format(new Date());
 
   return (
-    <div className="flex h-full flex-col gap-6">
+    <div className="flex h-full min-h-0 flex-col gap-6">
       <PageHeader
         title="Today"
         description={
@@ -21,9 +21,11 @@ const DashboardPage = () => {
         }
         actions={<NewHabitButton />}
       />
-      <div className="grid h-full min-h-0 grid-rows-[auto_1fr] gap-6">
-        <DashboardStats />
-        <TodayHabits />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="flex h-full min-h-0 flex-col gap-6">
+          <DashboardStats />
+          <TodayHabits />
+        </div>
       </div>
     </div>
   );

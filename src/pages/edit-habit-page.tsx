@@ -36,11 +36,20 @@ const EditHabitPage = () => {
   }
 
   return (
-    <HabitForm
-      onFormSubmit={handleFormSubmit}
-      submitLabel="Save changes"
-      defaultValues={habit}
-    />
+    <div className="grid gap-6">
+      <header>
+        <h1 className="text-2xl">Edit "{habit?.name}"</h1>
+        <p className="text-muted-foreground text-sm">
+          Update your routine details and goals
+        </p>
+      </header>
+      <HabitForm
+        onFormSubmit={handleFormSubmit}
+        submitLabel="Save changes"
+        defaultValues={habit}
+        onCancel={() => navigate("/habits")}
+      />
+    </div>
   );
 };
 export default EditHabitPage;

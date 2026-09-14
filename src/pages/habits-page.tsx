@@ -27,7 +27,7 @@ const HabitsPage = () => {
 
       {habits && habits.length > 0 && (
         <div className="min-h-0 flex-1 overflow-y-auto">
-          <div className="grid gap-3 pb-4 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             {habits.map((habit) => (
               <HabitCard key={habit.id} habit={habit} />
             ))}
