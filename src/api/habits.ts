@@ -1,12 +1,8 @@
 import { habitSchema } from "@/schemas/habit";
 import type { Habit, CreateHabitInput } from "@/types/habit";
+import { delay } from "./delay";
 
 const STORAGE_KEY = "habitforge:habits";
-const FAKE_DELAY = 300;
-
-function delay<T>(value: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), FAKE_DELAY));
-}
 
 function readAll(): Habit[] {
   const raw = localStorage.getItem(STORAGE_KEY);
