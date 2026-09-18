@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 const PageHeader = ({ title, description, actions }: PageHeaderProps) => {
   return (
-    <header className="flex items-end justify-between">
+    <header className="flex items-start justify-between gap-x-6">
       <div>
         <h1 className="text-2xl font-semibold">{title}</h1>
         {description && (
