@@ -1,10 +1,11 @@
 import { NavLink } from "react-router";
-import { LayoutDashboard, Repeat } from "lucide-react";
+import { LayoutDashboard, Repeat, Tags } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/habits", label: "Habits", icon: Repeat },
+  { to: "/categories", label: "Categories", icon: Tags },
 ];
 
 const Navigation = () => {
