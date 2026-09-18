@@ -3,7 +3,7 @@ import { z } from "zod";
 export const habitFormSchema = z
   .object({
     name: z.string().trim().min(2, "Minimum 2 characters").max(60),
-    category: z.string().trim().min(1, "Category is required"),
+    categoryId: z.string().min(1, "Category is required"),
     frequencyType: z.enum(["daily", "weekdays", "timesPerWeek"]),
     days: z.array(z.number().min(0).max(6)).optional(),
     timesPerWeek: z.number().min(1).max(7).optional(),

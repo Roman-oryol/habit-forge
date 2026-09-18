@@ -12,7 +12,7 @@ const frequencySchema = z.discriminatedUnion("type", [
 export const habitSchema = z.object({
   id: z.string(),
   name: z.string(),
-  category: z.string(),
+  categoryId: z.string(),
   frequency: frequencySchema,
   archived: z.boolean(),
   createdAt: z.string(),
