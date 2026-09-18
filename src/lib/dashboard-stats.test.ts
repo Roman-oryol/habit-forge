@@ -10,7 +10,7 @@ function makeHabit(overrides: Partial<Habit>): Habit {
   return {
     id: "test-id",
     name: "Test habit",
-    category: "Test",
+    categoryId: "test-category-id",
     archived: false,
     createdAt: "2020-01-01T00:00:00.000Z",
     completions: [],
