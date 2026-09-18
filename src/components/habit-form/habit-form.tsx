@@ -10,6 +10,7 @@ import { FrequencyTypeField } from "./frequency-type-field";
 import { WeekdaysField } from "./weekdays-field";
 import { TimesPerWeekField } from "./times-per-week-field";
 import type { CreateHabitInput, Frequency, Habit } from "@/types/habit";
+import CategoryField from "./category-field";
 
 type HabitFormProps = {
   onFormSubmit: (input: CreateHabitInput) => void;
@@ -58,7 +59,7 @@ const HabitForm = ({
     resolver: zodResolver(habitFormSchema),
     defaultValues: {
       name: defaultValues?.name ?? "",
-      category: defaultValues?.category ?? "",
+      categoryId: defaultValues?.categoryId ?? "",
       ...(defaultValues
         ? fromFrequency(defaultValues.frequency)
         : { frequencyType: "daily", days: [], timesPerWeek: 1 }),
@@ -70,7 +71,7 @@ const HabitForm = ({
   const onSubmit = handleSubmit((values) => {
     const input: CreateHabitInput = {
       name: values.name,
-      category: values.category,
+      categoryId: values.categoryId,
       frequency: toFrequency(values),
     };
     onFormSubmit(input);
@@ -101,15 +102,10 @@ const HabitForm = ({
             <Label className="text-muted-foreground" htmlFor="category">
               Category
             </Label>
-            <Input
-              {...register("category")}
-              id="category"
-              placeholder="e.g. Personal, Health, Learning"
-              aria-invalid={!!errors.category?.message}
-            />
-            {errors.category && (
+            <CategoryField control={control} />
+            {errors.categoryId && (
               <span className="text-destructive">
-                {errors.category.message}
+                {errors.categoryId.message}
               </span>
             )}
           </div>
