@@ -14,6 +14,7 @@ import { useToggleHabit } from "@/hooks/use-toggle-habit";
 import { toDateKey } from "@/lib/date";
 import { Spinner } from "../ui/spinner";
 import HabitActions from "./habit-actions";
+import { useCategories } from "@/hooks/use-categories";
 
 interface HabitCardCompactProps {
   habit: Habit;
@@ -21,6 +22,8 @@ interface HabitCardCompactProps {
 
 const HabitCardCompact = ({ habit }: HabitCardCompactProps) => {
   const mutation = useToggleHabit();
+  const { data: categories = [] } = useCategories();
+  const category = categories.find((c) => c.id === habit.categoryId);
   const today = toDateKey(new Date());
   const isDoneToday = habit.completions.includes(today);
   const streak = calculateStreak(habit);
@@ -29,7 +32,9 @@ const HabitCardCompact = ({ habit }: HabitCardCompactProps) => {
     <Card size="sm">
       <CardHeader>
         <CardTitle className="text-sm font-semibold">{habit.name}</CardTitle>
-        <CardDescription className="text-xs">{habit.category}</CardDescription>
+        <CardDescription className="text-xs">
+          {category?.name ?? "Uncategorized"}
+        </CardDescription>
         <CardAction className="-mt-1">
           <HabitActions habitId={habit.id} habitName={habit.name} />
         </CardAction>

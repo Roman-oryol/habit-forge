@@ -22,6 +22,7 @@ import { useToggleHabit } from "@/hooks/use-toggle-habit";
 import { toDateKey } from "@/lib/date";
 import { Spinner } from "../ui/spinner";
 import HabitActions from "./habit-actions";
+import { useCategories } from "@/hooks/use-categories";
 
 interface HabitCardProps {
   habit: Habit;
@@ -29,6 +30,8 @@ interface HabitCardProps {
 
 const HabitCard = ({ habit }: HabitCardProps) => {
   const mutation = useToggleHabit();
+  const { data: categories = [], isPending } = useCategories();
+  const category = categories.find((c) => c.id === habit.categoryId);
   const selectedType = frequencyTypes.find(
     (t) => t.value === habit.frequency.type,
   );
@@ -42,7 +45,13 @@ const HabitCard = ({ habit }: HabitCardProps) => {
     <Card>
       <CardHeader className="border-border border-b">
         <CardTitle className="text-base font-semibold">{habit.name}</CardTitle>
-        <CardDescription>{habit.category}</CardDescription>
+        <CardDescription>
+          {isPending ? (
+            <Spinner className="size-5" />
+          ) : (
+            (category?.name ?? "Uncategorized")
+          )}
+        </CardDescription>
         <CardAction className="-mt-1">
           <HabitActions habitId={habit.id} habitName={habit.name} />
         </CardAction>
