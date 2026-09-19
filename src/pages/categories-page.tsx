@@ -9,8 +9,7 @@ const CategoriesPage = () => {
       <div className="grid gap-6">
         <PageHeader
           title="Categories"
-          description="Organize your habits with categories. Create new categories and keep
-            your habits well structured."
+          description="Organize your habits with categories."
           actions={<CategoryCreateDialog />}
         />
         <CategoryList />
