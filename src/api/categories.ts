@@ -50,3 +50,22 @@ export async function createCategory(
   writeAll([...categories, category]);
   return delay(category);
 }
+
+export async function updateCategory(
+  id: string,
+  patch: Partial<Category>,
+): Promise<Category> {
+  const categories = readAll();
+  const index = categories.findIndex((c) => c.id === id);
+  if (index === -1) throw new Error(`Category ${id} not found`);
+
+  const updated = { ...categories[index], ...patch };
+  const nextCategories = categories.map((c) => (c.id === id ? updated : c));
+  writeAll(nextCategories);
+  return delay(updated);
+}
+
+export async function deleteCategory(id: string): Promise<void> {
+  writeAll(readAll().filter((h) => h.id !== id));
+  return delay(undefined);
+}
