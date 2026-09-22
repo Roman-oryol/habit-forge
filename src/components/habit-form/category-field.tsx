@@ -1,6 +1,5 @@
-import { useMemo } from "react";
-import { Controller, type Control } from "react-hook-form";
-import type { HabitFormValues } from "@/validations/habit";
+import { useEffect } from "react";
+import { useController, type Control } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -9,22 +8,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/hooks/use-categories";
-import { Link } from "react-router";
+import type { HabitFormValues } from "@/validations/habit";
+import { Link } from "lucide-react";
 
 interface CategoryFieldProps {
   control: Control<HabitFormValues>;
+  invalid?: boolean;
 }
 
-const CategoryField = ({ control }: CategoryFieldProps) => {
+const CategoryField = ({ control, invalid }: CategoryFieldProps) => {
   const { data: categories = [], isPending } = useCategories();
-  const items = useMemo(
-    () =>
-      categories.map((category) => ({
-        label: category.name,
-        value: category.id,
-      })),
-    [categories],
-  );
+  const { field } = useController({ name: "categoryId", control });
+
+  useEffect(() => {
+    const isOrphaned =
+      field.value && !categories.some((c) => c.id === field.value);
+    if (!isPending && isOrphaned) {
+      field.onChange("");
+    }
+  }, [isPending, categories, field]);
 
   if (!isPending && categories.length === 0) {
     return (
@@ -39,35 +41,26 @@ const CategoryField = ({ control }: CategoryFieldProps) => {
   }
 
   return (
-    <Controller
-      name="categoryId"
-      control={control}
-      render={({ field }) => {
-        return (
-          <Select
-            items={items}
-            value={field.value}
-            onValueChange={field.onChange}
-            id="category"
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
-            <SelectContent alignItemWithTrigger={false}>
-              {categories.map((category) => (
-                <SelectItem
-                  className="px-3"
-                  key={category.id}
-                  value={category.id}
-                >
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
-      }}
-    />
+    <Select
+      items={categories.map((category) => ({
+        label: category.name,
+        value: category.id,
+      }))}
+      value={field.value}
+      onValueChange={field.onChange}
+      id="category"
+    >
+      <SelectTrigger className="w-full" aria-invalid={invalid}>
+        <SelectValue placeholder="Select a category" />
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger={false}>
+        {categories.map((category) => (
+          <SelectItem className="px-3" key={category.id} value={category.id}>
+            {category.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 export default CategoryField;
