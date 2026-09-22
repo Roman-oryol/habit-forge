@@ -102,7 +102,7 @@ const HabitForm = ({
             <Label className="text-muted-foreground" htmlFor="category">
               Category
             </Label>
-            <CategoryField control={control} />
+            <CategoryField control={control} invalid={!!errors.categoryId} />
             {errors.categoryId && (
               <span className="text-destructive">
                 {errors.categoryId.message}
