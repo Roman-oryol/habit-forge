@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import Navigation from "@/components/navigation";
 import Logo from "@/components/logo";
+import ThemeToggle from "@/components/theme-toggle";
 
 const AppLayout = () => {
   return (
@@ -9,7 +10,7 @@ const AppLayout = () => {
         <header className="flex items-center justify-between px-4 py-3">
           <Logo />
           <div className="flex items-center gap-2">
-            {/* сюда встанет переключатель темы следующим шагом */}
+            <ThemeToggle />
           </div>
         </header>
         <div className="border-border relative min-h-0 rounded-2xl md:border">
