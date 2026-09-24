@@ -7,7 +7,7 @@ const AppLayout = () => {
   return (
     <div className="bg-background text-foreground flex h-svh overflow-hidden md:p-6 md:pt-0">
       <div className="mx-auto grid h-full w-full max-w-360 grid-rows-[auto_1fr]">
-        <header className="flex items-center justify-between px-4 py-3">
+        <header className="flex items-center justify-between px-4 py-3 max-md:border-b">
           <Logo />
           <div className="flex items-center gap-2">
             <ThemeToggle />
