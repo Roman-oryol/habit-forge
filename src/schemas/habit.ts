@@ -14,7 +14,6 @@ export const habitSchema = z.object({
   name: z.string(),
   categoryId: z.string().nullable(),
   frequency: frequencySchema,
-  archived: z.boolean(),
   createdAt: z.string(),
   completions: z.array(z.string()),
 });
