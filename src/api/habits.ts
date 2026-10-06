@@ -1,96 +1,58 @@
-import { habitSchema } from "@/schemas/habit";
 import type { Habit, CreateHabitInput } from "@/types/habit";
-import { delay } from "./delay";
 
-const STORAGE_KEY = "habitforge:habits";
-
-function readAll(): Habit[] {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return [];
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch {
-    console.warn("Corrupted habits data in localStorage — resetting.");
-    return [];
-  }
-
-  if (!Array.isArray(parsed)) {
-    console.warn("Habits data is not an array — resetting.");
-    return [];
-  }
-
-  return parsed.filter((item): item is Habit => {
-    const result = habitSchema.safeParse(item);
-    if (!result.success) {
-      console.warn("Skipping invalid habit record:", item, result.error);
-    }
-    return result.success;
-  });
-}
-
-function writeAll(habits: Habit[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
-}
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getHabits(): Promise<Habit[]> {
-  return delay(readAll());
+  const res = await fetch(`${API_URL}/habits`);
+  if (!res.ok) throw new Error("Failed to fetch habits");
+  return res.json();
 }
 
 export async function getHabit(id: string): Promise<Habit | undefined> {
-  return delay(readAll().find((h) => h.id === id));
+  const res = await fetch(`${API_URL}/habits/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch habit");
+  return res.json();
 }
 
 export async function createHabit(input: CreateHabitInput): Promise<Habit> {
-  const habit: Habit = {
-    ...input,
-    id: crypto.randomUUID(),
-    archived: false,
-    createdAt: new Date().toISOString(),
-    completions: [],
-  };
-  const habits = readAll();
-  writeAll([...habits, habit]);
-  return delay(habit);
+  const res = await fetch(`${API_URL}/habits`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error("Failed to create habit");
+  return res.json();
 }
 
 export async function updateHabit(
   id: string,
   patch: Partial<Habit>,
 ): Promise<Habit> {
-  const habits = readAll();
-  const index = habits.findIndex((h) => h.id === id);
-  if (index === -1) throw new Error(`Habit ${id} not found`);
-
-  const updated = { ...habits[index], ...patch };
-  const nextHabits = habits.map((h) => (h.id === id ? updated : h));
-
-  writeAll(nextHabits);
-  return delay(updated);
+  const res = await fetch(`${API_URL}/habits/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patch),
+  });
+  if (!res.ok) throw new Error("Failed to update habit");
+  return res.json();
 }
 
 export async function deleteHabit(id: string): Promise<void> {
-  writeAll(readAll().filter((h) => h.id !== id));
-  return delay(undefined);
+  const res = await fetch(`${API_URL}/habits/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete habit");
 }
 
 export async function toggleCompletion(
   id: string,
   date: string,
 ): Promise<Habit> {
-  const habits = readAll();
-  const habit = habits.find((h) => h.id === id);
-  if (!habit) throw new Error(`Habit ${id} not found`);
-
-  const has = habit.completions.includes(date);
-  const completions = has
-    ? habit.completions.filter((d) => d !== date)
-    : [...habit.completions, date];
-
-  const updated = { ...habit, completions };
-  const nextHabits = habits.map((h) => (h.id === id ? updated : h));
-
-  writeAll(nextHabits);
-  return delay(updated);
+  const res = await fetch(`${API_URL}/habits/${id}/toggle`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ date }),
+  });
+  if (!res.ok) throw new Error("Failed to toggle habit completion");
+  return res.json();
 }
