@@ -9,9 +9,9 @@ type CategoryCardProps = {
 const CategoryCard = ({ category }: CategoryCardProps) => {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex items-center justify-between">
         <CardTitle>{category.name}</CardTitle>
-        <CardAction className="-mt-1">
+        <CardAction className="">
           <CategoryActions
             categoryId={category.id}
             categoryName={category.name}
