@@ -7,7 +7,6 @@ function makeHabit(overrides: Partial<Habit>): Habit {
     id: "test-id",
     name: "Test habit",
     categoryId: "test-category-id",
-    archived: false,
     createdAt: "2020-01-01T00:00:00.000Z",
     completions: [],
     frequency: { type: "daily" },
