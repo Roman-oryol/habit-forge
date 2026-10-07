@@ -8,7 +8,4 @@ export type Frequency =
 
 export type Habit = z.infer<typeof habitSchema>;
 
-export type CreateHabitInput = Omit<
-  Habit,
-  "id" | "createdAt" | "completions" | "archived"
->;
+export type CreateHabitInput = Omit<Habit, "id" | "createdAt" | "completions">;
