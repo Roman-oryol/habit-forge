@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Navigation from "@/components/navigation";
 import Logo from "@/components/logo";
 import ThemeToggle from "@/components/theme-toggle";
+import UserMenu from "@/components/user-menu";
 
 const AppLayout = () => {
   return (
@@ -11,6 +12,7 @@ const AppLayout = () => {
           <Logo />
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            <UserMenu />
           </div>
         </header>
         <div className="border-border relative min-h-0 rounded-2xl md:border">
