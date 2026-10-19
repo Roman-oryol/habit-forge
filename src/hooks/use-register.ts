@@ -9,6 +9,7 @@ export function useRegister() {
       await register(credentials);
       return login(credentials);
     },
+    meta: { silentError: true },
     onSuccess: ({ token }) => {
       authToken.set(token);
     },

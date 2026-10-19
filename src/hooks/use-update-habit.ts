@@ -8,6 +8,7 @@ export function useUpdateHabit(id: string | undefined) {
 
   return useMutation({
     mutationFn: (patch: Partial<Habit>) => updateHabit(id!, patch),
+    meta: { successMessage: "Habit updated" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: habitsKeys.all });
     },

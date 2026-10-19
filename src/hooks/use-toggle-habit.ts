@@ -13,6 +13,7 @@ export function useToggleHabit() {
   return useMutation({
     mutationFn: ({ id, date }: ToggleCompletionInput) =>
       toggleCompletion(id, date),
+    meta: { errorMessage: "Couldn't update habit" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: habitsKeys.all });
     },

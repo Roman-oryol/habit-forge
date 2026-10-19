@@ -7,6 +7,7 @@ export function useCreateCategory() {
 
   return useMutation({
     mutationFn: createCategory,
+    meta: { successMessage: "Category created" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: categoriesKeys.all });
     },

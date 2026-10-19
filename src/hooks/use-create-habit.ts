@@ -7,6 +7,7 @@ export function useCreateHabit() {
 
   return useMutation({
     mutationFn: createHabit,
+    meta: { successMessage: "Habit created" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: habitsKeys.all });
     },

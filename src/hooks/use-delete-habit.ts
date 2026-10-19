@@ -7,6 +7,7 @@ export function useDeleteHabit() {
 
   return useMutation({
     mutationFn: deleteHabit,
+    meta: { successMessage: "Habit deleted" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: habitsKeys.all });
     },

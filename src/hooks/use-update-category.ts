@@ -8,6 +8,7 @@ export function useUpdateCategory(id: string) {
 
   return useMutation({
     mutationFn: (patch: Partial<Category>) => updateCategory(id, patch),
+    meta: { successMessage: "Category updated" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: categoriesKeys.all });
     },

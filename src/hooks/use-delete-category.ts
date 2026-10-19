@@ -7,6 +7,7 @@ export function useDeleteCategory() {
 
   return useMutation({
     mutationFn: deleteCategory,
+    meta: { successMessage: "Category deleted" },
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: categoriesKeys.all });
     },
