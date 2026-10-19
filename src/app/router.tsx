@@ -6,6 +6,8 @@ import RequireAuth from "@/components/auth/require-auth";
 import PublicOnly from "@/components/auth/public-only";
 import LoginPage from "@/pages/login-page";
 import RegisterPage from "@/pages/register-page";
+import ForgotPasswordPage from "@/pages/forgot-password-page";
+import ResetPasswordPage from "@/pages/reset-password-page";
 import CreateHabitPage from "@/pages/create-habit-page";
 import DashboardPage from "@/pages/dashboard-page";
 import HabitsPage from "@/pages/habits-page";
@@ -20,6 +22,8 @@ const Router = () => {
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
           </Route>
         </Route>
 

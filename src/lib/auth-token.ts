@@ -18,6 +18,14 @@ function notify() {
 export const authToken = {
   get: (): string | null => currentToken,
 
+  // Актуальное значение из localStorage: токен мог обновить другая вкладка
+  sync() {
+    const stored = read();
+    if (stored === currentToken) return;
+    currentToken = stored;
+    notify();
+  },
+
   set(token: string) {
     currentToken = token;
     localStorage.setItem(STORAGE_KEY, token);
@@ -44,3 +52,23 @@ window.addEventListener("storage", (event) => {
     notify();
   }
 });
+
+const REFRESH_KEY = "habitforge:refresh-token";
+
+// Refresh-токен долгоживущий и в UI не участвует, поэтому без подписок:
+// читаем прямо из localStorage, так вкладки всегда видят одно значение
+export const refreshToken = {
+  get(): string | null {
+    try {
+      return localStorage.getItem(REFRESH_KEY);
+    } catch {
+      return null;
+    }
+  },
+  set(token: string) {
+    localStorage.setItem(REFRESH_KEY, token);
+  },
+  clear() {
+    localStorage.removeItem(REFRESH_KEY);
+  },
+};

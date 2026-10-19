@@ -55,9 +55,17 @@ const LoginPage = () => {
           </div>
 
           <div className="grid gap-2">
-            <Label className="text-muted-foreground" htmlFor="password">
-              Password
-            </Label>
+            <div className="flex items-center justify-between">
+              <Label className="text-muted-foreground" htmlFor="password">
+                Password
+              </Label>
+              <Link
+                to="/forgot-password"
+                className="text-muted-foreground text-sm underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
             <Input
               {...register("password")}
               id="password"

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { login, register } from "@/api/auth";
-import { authToken } from "@/lib/auth-token";
+import { startSession } from "@/lib/auth-session";
 import type { Credentials } from "@/types/auth";
 
 export function useRegister() {
@@ -10,8 +10,8 @@ export function useRegister() {
       return login(credentials);
     },
     meta: { silentError: true },
-    onSuccess: ({ token }) => {
-      authToken.set(token);
+    onSuccess: ({ token, refreshToken }) => {
+      startSession({ token, refreshToken });
     },
   });
 }

@@ -1,10 +1,11 @@
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { authToken } from "@/lib/auth-token";
+import { useLogout } from "@/hooks/use-logout";
 
 const UserMenu = () => {
   const { data: user } = useCurrentUser();
+  const logout = useLogout();
 
   return (
     <div className="flex items-center gap-2">
@@ -13,12 +14,7 @@ const UserMenu = () => {
           {user.email}
         </span>
       )}
-      <Button
-        variant="ghost"
-        size="icon"
-        aria-label="Log out"
-        onClick={() => authToken.clear()}
-      >
+      <Button variant="ghost" size="icon" aria-label="Log out" onClick={logout}>
         <LogOut className="size-5" />
       </Button>
     </div>
